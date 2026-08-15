@@ -1,0 +1,9 @@
+﻿build/
+dist/
+*.spec
+ffmpeg.exe
+ffmpeg
+files.zip
+__pycache__/
+*.pyc
+.flac2mp3_gui.json
