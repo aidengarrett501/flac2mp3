@@ -54,10 +54,11 @@ class FileRow(ctk.CTkFrame):
         name_label.grid(row=0, column=1, padx=(8, 4), pady=2, sticky="w")
 
         rel_label = ctk.CTkLabel(self, text=rel_path, anchor="w")
-        rel_label.grid(row=0, column=3, padx=(8, 4), pady=2, sticky="w")
+        rel_label.grid(row=0, column=2, padx=(8, 4), pady=2, sticky="w")
 
-        self.grid_columnconfigure(1, weight=2)
-        self.grid_columnconfigure(3, weight=3)
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=2)
 
 
 class App(ctk.CTk):
@@ -166,20 +167,16 @@ class App(ctk.CTk):
         list_container.grid_columnconfigure(0, weight=1)
 
         list_header = ctk.CTkFrame(list_container, corner_radius=0)
-        list_header.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, 4))
+        list_header.grid(row=0, column=0, columnspan=3, sticky="ew", pady=(0, 4))
         list_header.grid_columnconfigure(0, weight=0)
         list_header.grid_columnconfigure(1, weight=1)
-        list_header.grid_columnconfigure(2, weight=0)
-        list_header.grid_columnconfigure(3, weight=2)
+        list_header.grid_columnconfigure(2, weight=2)
 
         header_name = ctk.CTkLabel(list_header, text="File Name", anchor="w")
         header_name.grid(row=0, column=1, padx=(8, 4), sticky="w")
 
-        header_divider = ctk.CTkFrame(list_header, width=2, height=1, fg_color=["gray70", "gray30"])
-        header_divider.grid(row=0, column=2, sticky="ns", padx=(8, 0), pady=2)
-
         header_rel = ctk.CTkLabel(list_header, text="Subfolder / Relative Path", anchor="w")
-        header_rel.grid(row=0, column=3, padx=(8, 4), sticky="w")
+        header_rel.grid(row=0, column=2, padx=(8, 4), sticky="w")
 
         self.canvas = tk.Canvas(list_container, highlightthickness=0, bg="#2b2b2b")
         self.canvas.grid(row=1, column=0, sticky="nsew")
@@ -195,10 +192,7 @@ class App(ctk.CTk):
         self.inner_frame = ctk.CTkFrame(self.canvas, corner_radius=0)
         self.inner_frame.grid_columnconfigure(0, weight=0)
         self.inner_frame.grid_columnconfigure(1, weight=1)
-        self.inner_frame.grid_columnconfigure(2, weight=0)
-        self.inner_frame.grid_columnconfigure(3, weight=2)
-        self.file_divider = ctk.CTkFrame(self.inner_frame, width=2, height=1, fg_color=["gray70", "gray30"])
-        self.file_divider.grid(row=0, column=2, rowspan=9999, sticky="ns", padx=(8, 0), pady=2)
+        self.inner_frame.grid_columnconfigure(2, weight=2)
         self.canvas_window = self.canvas.create_window((0, 0), window=self.inner_frame, anchor="nw")
         self.inner_frame.bind("<Configure>", self._update_canvas_scrollregion)
         self.canvas.bind("<Configure>", lambda event: self.canvas.itemconfig(self.canvas_window, width=event.width))
@@ -297,9 +291,9 @@ class App(ctk.CTk):
             # Map absolute file path to row widget for dynamic removal
             self.row_map[str(flac.absolute())] = row
 
-        self.file_divider.lift()
-        self.list_inner_frame.grid_columnconfigure(0, weight=1)
-        self.list_inner_frame.grid_columnconfigure(2, weight=1)
+        self.list_inner_frame.grid_columnconfigure(0, weight=0)
+        self.list_inner_frame.grid_columnconfigure(1, weight=1)
+        self.list_inner_frame.grid_columnconfigure(2, weight=2)
         self._update_canvas_scrollregion()
         self.write_log(f"Found {total} files.")
         self._update_file_counter()
